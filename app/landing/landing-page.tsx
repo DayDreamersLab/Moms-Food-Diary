@@ -34,7 +34,7 @@ export default function LandingPage() {
             padding: '0.4rem 1rem', borderRadius: '20px',
             transition: 'color 0.2s',
           }}>Sign in</Link>
-          <Link href="/auth" style={{
+          <Link href="/auth?tab=signup" style={{
             fontFamily: "'Playfair Display', serif", fontSize: '0.9rem',
             color: 'white', textDecoration: 'none',
             padding: '0.5rem 1.25rem', borderRadius: '20px',
@@ -96,7 +96,7 @@ export default function LandingPage() {
         </div>
 
         <div className="fade-up" style={{ animationDelay: '0.5s', display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <Link href="/auth" style={{
+          <Link href="/auth?tab=signup" style={{
             fontFamily: "'Playfair Display', serif", fontSize: '1.1rem',
             color: 'white', textDecoration: 'none',
             padding: '1rem 2.5rem', borderRadius: '50px',
@@ -432,7 +432,7 @@ export default function LandingPage() {
         }}>
           Start your diary today. Free, forever. One dish at a time.
         </p>
-        <Link href="/auth" style={{
+        <Link href="/auth?tab=signup" style={{
           fontFamily: "'Playfair Display', serif", fontSize: '1.15rem',
           color: 'white', textDecoration: 'none',
           padding: '1.1rem 3rem', borderRadius: '50px',

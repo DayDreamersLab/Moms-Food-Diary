@@ -16,6 +16,7 @@ export default function PostCard({ post, currentUserId, onDelete }: {
 }) {
   const [likes, setLikes] = useState(post.like_count ?? 0);
   const [userLiked, setUserLiked] = useState(post.user_liked ?? false);
+  const [chosenEmoji, setChosenEmoji] = useState('❤️');
   const [reactionOpen, setReactionOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const supabase = createClient();
@@ -25,10 +26,16 @@ export default function PostCard({ post, currentUserId, onDelete }: {
     setReactionOpen(false);
     if (userLiked) {
       await supabase.from('likes').delete().eq('post_id', post.id).eq('user_id', currentUserId);
-      setLikes(l => l - 1); setUserLiked(false);
+      setLikes(l => l - 1);
+      setUserLiked(false);
+      setChosenEmoji('❤️');
     } else {
       const { error } = await supabase.from('likes').insert({ post_id: post.id, user_id: currentUserId, emoji });
-      if (!error) { setLikes(l => l + 1); setUserLiked(true); }
+      if (!error) {
+        setLikes(l => l + 1);
+        setUserLiked(true);
+        setChosenEmoji(emoji);
+      }
     }
   }
 
@@ -158,7 +165,7 @@ export default function PostCard({ post, currentUserId, onDelete }: {
                 transition:'all 0.2s',
               }}
             >
-              {userLiked ? '❤️' : '🤍'} {likes > 0 ? likes : ''}
+              {userLiked ? chosenEmoji : '🤍'} {likes > 0 ? likes : ''}
             </button>
             {reactionOpen && (
               <div style={{
