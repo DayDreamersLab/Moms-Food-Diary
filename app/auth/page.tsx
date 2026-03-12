@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 export default function AuthPage() {
   const router = useRouter();
@@ -58,8 +59,22 @@ export default function AuthPage() {
   return (
     <div style={{
       minHeight: '100vh', display: 'flex', flexDirection: 'column',
-      alignItems: 'center', justifyContent: 'center', padding: '2rem',
+      alignItems: 'center', justifyContent: 'center', padding: '2rem', position: 'relative',
     }}>
+      {/* Back to landing */}
+    <div style={{ position: 'absolute', top: '1.5rem', left: '2rem' }}>
+      <Link href="/" style={{
+        fontFamily: "'Lora', serif", fontSize: '0.9rem',
+        color: 'var(--light-ink)', textDecoration: 'none',
+        display: 'flex', alignItems: 'center', gap: '0.4rem',
+        transition: 'color 0.2s',
+      }}
+        onMouseEnter={e => { (e.currentTarget as any).style.color = 'var(--rust)'; }}
+        onMouseLeave={e => { (e.currentTarget as any).style.color = 'var(--light-ink)'; }}
+      >
+        ← Back to Home
+      </Link>
+    </div>
       {/* Hero */}
       <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
         <span className="sway" style={{ fontSize: '3.5rem', display: 'block', marginBottom: '0.5rem' }}>🍲</span>
