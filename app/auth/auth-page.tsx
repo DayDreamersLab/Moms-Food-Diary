@@ -8,6 +8,7 @@ import Link from 'next/link';
 export default function AuthPage() {
   const router = useRouter();
   const [tab, setTab] = useState<'login'|'signup'>('login');
+  const [transitioning, setTransitioning] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // Login fields
@@ -22,6 +23,15 @@ export default function AuthPage() {
   const [momName, setMomName] = useState('');
 
   const supabase = createClient();
+
+  function switchTab(t: 'login' | 'signup') {
+    if (t === tab) return;
+    setTransitioning(true);
+    setTimeout(() => {
+      setTab(t);
+      setTransitioning(false);
+    }, 200);
+  }
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -62,19 +72,20 @@ export default function AuthPage() {
       alignItems: 'center', justifyContent: 'center', padding: '2rem', position: 'relative',
     }}>
       {/* Back to landing */}
-    <div style={{ position: 'absolute', top: '1.5rem', left: '2rem' }}>
-      <Link href="/" style={{
-        fontFamily: "'Lora', serif", fontSize: '0.9rem',
-        color: 'var(--light-ink)', textDecoration: 'none',
-        display: 'flex', alignItems: 'center', gap: '0.4rem',
-        transition: 'color 0.2s',
-      }}
-        onMouseEnter={e => { (e.currentTarget as any).style.color = 'var(--rust)'; }}
-        onMouseLeave={e => { (e.currentTarget as any).style.color = 'var(--light-ink)'; }}
-      >
-        ← Back to Home
-      </Link>
-    </div>
+      <div style={{ position: 'absolute', top: '1.5rem', left: '2rem' }}>
+        <Link href="/" style={{
+          fontFamily: "'Lora', serif", fontSize: '0.9rem',
+          color: 'var(--light-ink)', textDecoration: 'none',
+          display: 'flex', alignItems: 'center', gap: '0.4rem',
+          transition: 'color 0.2s',
+        }}
+          onMouseEnter={e => { (e.currentTarget as any).style.color = 'var(--rust)'; }}
+          onMouseLeave={e => { (e.currentTarget as any).style.color = 'var(--light-ink)'; }}
+        >
+          ← Back to Home
+        </Link>
+      </div>
+
       {/* Hero */}
       <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
         <span className="sway" style={{ fontSize: '3.5rem', display: 'block', marginBottom: '0.5rem' }}>🍲</span>
@@ -101,35 +112,43 @@ export default function AuthPage() {
         {/* Tabs */}
         <div style={{ display:'flex', borderBottom:'2px solid var(--parchment)', marginBottom:'2rem' }}>
           {(['login','signup'] as const).map((t, i) => (
-            <button key={t} onClick={() => setTab(t)} style={{
+            <button key={t} onClick={() => switchTab(t)} style={{
               flex:1, background:'none', border:'none',
               fontFamily:"'Playfair Display', serif", fontSize:'1rem',
               color: tab===t ? 'var(--rust)' : 'var(--warm-gray)',
               padding:'0.6rem', cursor:'pointer', position:'relative',
               borderBottom: tab===t ? '2px solid var(--rust)' : '2px solid transparent',
               marginBottom: '-2px',
+              transition: 'color 0.2s',
             }}>
               {i===0 ? 'Sign In' : 'Create Account'}
             </button>
           ))}
         </div>
 
-        {tab === 'login' ? (
-          <form onSubmit={handleLogin}>
-            <Field label="Email" type="email" value={loginEmail} onChange={setLoginEmail} placeholder="your@email.com" />
-            <Field label="Password" type="password" value={loginPass} onChange={setLoginPass} placeholder="••••••••" />
-            <SubmitBtn loading={loading}>Open My Diary →</SubmitBtn>
-          </form>
-        ) : (
-          <form onSubmit={handleSignup}>
-            <Field label="Your name" value={name} onChange={setName} placeholder="How you'd like to be known" />
-            <Field label="Username" value={username} onChange={setUsername} placeholder="e.g. maria_kitchen" />
-            <Field label="Email" type="email" value={email} onChange={setEmail} placeholder="your@email.com" />
-            <Field label="Password" type="password" value={pass} onChange={setPass} placeholder="At least 6 characters" />
-            <Field label="What do you call your mom? 🥰" value={momName} onChange={setMomName} placeholder="Mama, Nanay, Ummi, 妈妈..." />
-            <SubmitBtn loading={loading}>Start My Diary →</SubmitBtn>
-          </form>
-        )}
+        {/* Animated form wrapper */}
+        <div style={{
+          opacity: transitioning ? 0 : 1,
+          transform: transitioning ? 'translateY(6px)' : 'translateY(0)',
+          transition: 'opacity 0.2s ease, transform 0.2s ease',
+        }}>
+          {tab === 'login' ? (
+            <form onSubmit={handleLogin}>
+              <Field label="Email" type="email" value={loginEmail} onChange={setLoginEmail} placeholder="your@email.com" />
+              <Field label="Password" type="password" value={loginPass} onChange={setLoginPass} placeholder="••••••••" />
+              <SubmitBtn loading={loading}>Open My Diary →</SubmitBtn>
+            </form>
+          ) : (
+            <form onSubmit={handleSignup}>
+              <Field label="Your name" value={name} onChange={setName} placeholder="How you'd like to be known" />
+              <Field label="Username" value={username} onChange={setUsername} placeholder="e.g. maria_kitchen" />
+              <Field label="Email" type="email" value={email} onChange={setEmail} placeholder="your@email.com" />
+              <Field label="Password" type="password" value={pass} onChange={setPass} placeholder="At least 6 characters" />
+              <Field label="What do you call your mom? 🥰" value={momName} onChange={setMomName} placeholder="Mama, Nanay, Ummi, 妈妈..." />
+              <SubmitBtn loading={loading}>Start My Diary →</SubmitBtn>
+            </form>
+          )}
+        </div>
       </div>
     </div>
   );
