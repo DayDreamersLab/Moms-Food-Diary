@@ -454,8 +454,11 @@ export default function LandingPage() {
         borderTop: '1.5px solid var(--parchment)',
         background: 'var(--warm-white)',
       }}>
-        <p style={{ fontFamily: "'Caveat', cursive", fontSize: '1rem', color: 'var(--warm-gray)' }}>
+        <p style={{ fontFamily: "'Caveat', cursive", fontSize: '1rem', color: 'var(--warm-gray)', marginBottom: '0.4rem' }}>
           🍲 Mom's Food Diary — Made with love, for every mom's kitchen
+        </p>
+        <p style={{ fontFamily: "'Caveat', cursive", fontSize: '0.9rem', color: 'var(--warm-gray)', opacity: 0.7 }}>
+          Prototype built with the assistance of AI (Claude by Anthropic) ✦ 2026
         </p>
       </footer>
 

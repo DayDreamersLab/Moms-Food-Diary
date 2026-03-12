@@ -56,7 +56,7 @@ export default function DiaryPage() {
       <div style={{ maxWidth:'700px', margin:'0 auto', padding:'2.5rem 1.5rem' }}>
         <div style={{ textAlign:'center', marginBottom:'2.5rem' }} className="fade-up">
           <h1 style={{ fontFamily:"'Playfair Display', serif", fontSize:'2rem', color:'var(--deep-brown)' }}>
-            {profile ? `${profile.display_name}'s` : 'My'} <em style={{ color:'var(--rust)' }}>{profile?.mom_name}'s</em> Kitchen
+            My <em style={{ color: 'var(--rust)' }}>{profile?.mom_name}'s</em> Kitchen
           </h1>
           <p style={{ fontFamily:"'Caveat', cursive", fontSize:'1.1rem', color:'var(--warm-gray)', marginTop:'0.3rem' }}>
             A diary of love, one dish at a time 🌿
