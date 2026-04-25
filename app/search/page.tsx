@@ -56,12 +56,12 @@ export default function SearchPage() {
   return (
     <>
       <Navbar username={profile?.username} />
-      <div style={{ maxWidth:'700px', margin:'0 auto', padding:'2.5rem 1.5rem' }}>
-        <div style={{ textAlign:'center', marginBottom:'2.5rem' }} className="fade-up">
-          <h1 style={{ fontFamily:"'Playfair Display', serif", fontSize:'2rem', color:'var(--deep-brown)' }}>
+      <div className="app-page-container">
+        <div className="fade-up app-page-hero">
+          <h1 className="app-page-title">
             Search <em style={{ color:'var(--rust)' }}>Memories</em>
           </h1>
-          <p style={{ fontFamily:"'Caveat', cursive", fontSize:'1.1rem', color:'var(--warm-gray)', marginTop:'0.3rem' }}>
+          <p className="app-page-subtitle">
             Find dishes by name, ingredient, or feeling
           </p>
         </div>

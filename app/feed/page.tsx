@@ -55,13 +55,13 @@ export default function FeedPage() {
   return (
     <>
       <Navbar username={profile?.username} />
-      <div style={{ maxWidth:'700px', margin:'0 auto', padding:'2.5rem 1.5rem' }}>
+      <div className="app-page-container">
         {/* Hero */}
-        <div style={{ textAlign:'center', marginBottom:'2.5rem' }} className="fade-up">
-          <h1 style={{ fontFamily:"'Playfair Display', serif", fontSize:'2rem', color:'var(--deep-brown)' }}>
+        <div className="fade-up app-page-hero">
+          <h1 className="app-page-title">
             Community <em style={{ color:'var(--rust)' }}>Feed</em>
           </h1>
-          <p style={{ fontFamily:"'Caveat', cursive", fontSize:'1.1rem', color:'var(--warm-gray)', marginTop:'0.3rem' }}>
+          <p className="app-page-subtitle">
             Memories shared from kitchens around the world 🌍
           </p>
         </div>
