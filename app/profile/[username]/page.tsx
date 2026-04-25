@@ -65,7 +65,7 @@ export default function ProfilePage() {
   return (
     <>
       <Navbar username={me?.username} />
-      <div style={{ maxWidth:'700px', margin:'0 auto', padding:'2.5rem 1.5rem' }}>
+      <div className="app-page-container">
         {/* Profile header */}
         {profile && (
           <div className="fade-up" style={{

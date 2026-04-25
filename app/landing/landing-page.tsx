@@ -15,19 +15,16 @@ export default function LandingPage() {
     <div style={{ fontFamily: "'Lora', Georgia, serif", color: 'var(--ink)', overflowX: 'hidden' }}>
 
       {/* ── STICKY NAV ── */}
-      <nav style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-        padding: '0 2.5rem', height: '64px',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      <nav className="landing-nav" style={{
         background: scrolled ? 'rgba(253,246,236,0.95)' : 'transparent',
         backdropFilter: scrolled ? 'blur(8px)' : 'none',
         borderBottom: scrolled ? '1px solid var(--parchment)' : 'none',
         transition: 'all 0.3s ease',
       }}>
-        <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.4rem', color: 'var(--deep-brown)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+        <div className="landing-nav-brand" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
           <span>🍲</span> Mom's Food Diary
         </div>
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <div className="landing-nav-links" style={{ gap: '1rem', alignItems: 'center' }}>
           <Link href="/auth" style={{
             fontFamily: "'Lora', serif", fontSize: '0.9rem',
             color: 'var(--light-ink)', textDecoration: 'none',
@@ -46,26 +43,15 @@ export default function LandingPage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section style={{
-        minHeight: '100vh',
-        display: 'flex', flexDirection: 'column',
-        alignItems: 'center', justifyContent: 'center',
-        textAlign: 'center', padding: '8rem 2rem 5rem',
-        position: 'relative',
+      <section className="landing-hero" style={{
         background: 'linear-gradient(170deg, var(--cream) 0%, #f5e9d3 50%, var(--cream) 100%)',
       }}>
         {/* Decorative blobs */}
-        <div style={{
-          position: 'absolute', top: '10%', left: '-5%',
-          width: '400px', height: '400px', borderRadius: '50%',
+        <div className="landing-blob-a" style={{
           background: 'radial-gradient(circle, rgba(212,168,83,0.12) 0%, transparent 70%)',
-          pointerEvents: 'none',
         }}/>
-        <div style={{
-          position: 'absolute', bottom: '5%', right: '-5%',
-          width: '500px', height: '500px', borderRadius: '50%',
+        <div className="landing-blob-b" style={{
           background: 'radial-gradient(circle, rgba(184,92,42,0.08) 0%, transparent 70%)',
-          pointerEvents: 'none',
         }}/>
 
         <div className="fade-up" style={{ animationDelay: '0.1s' }}>
@@ -95,7 +81,7 @@ export default function LandingPage() {
           </p>
         </div>
 
-        <div className="fade-up" style={{ animationDelay: '0.5s', display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+        <div className="fade-up landing-cta-group" style={{ animationDelay: '0.5s' }}>
           <Link href="/auth?tab=signup" style={{
             fontFamily: "'Playfair Display', serif", fontSize: '1.1rem',
             color: 'white', textDecoration: 'none',
@@ -127,19 +113,15 @@ export default function LandingPage() {
         </div>
 
         {/* Hero image mosaic */}
-        <div className="fade-up" style={{
+        <div className="fade-up landing-mosaic" style={{
           animationDelay: '0.6s',
-          marginTop: '4rem', display: 'grid',
-          gridTemplateColumns: '1fr 1.4fr 1fr',
-          gap: '1rem', maxWidth: '860px', width: '100%',
-          alignItems: 'center',
         }}>
           {[
             { emoji: '🍜', label: "Nanay's Sinigang", height: '180px', delay: '0.65s' },
             { emoji: '🥘', label: "Mama's Adobo", height: '240px', delay: '0.7s' },
             { emoji: '🍛', label: "Ummi's Curry", height: '180px', delay: '0.75s' },
           ].map(({ emoji, label, height, delay }) => (
-            <div key={label} className="fade-up" style={{
+            <div key={label} className="fade-up landing-card" style={{
               animationDelay: delay,
               background: 'linear-gradient(145deg, var(--parchment), #ede0c8)',
               borderRadius: '18px', height,

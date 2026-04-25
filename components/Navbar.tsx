@@ -21,22 +21,15 @@ export default function Navbar({ username }: { username?: string }) {
   ];
 
   return (
-    <nav style={{
-      background: 'var(--warm-white)', borderBottom: '1.5px solid var(--parchment)',
-      padding: '0 2rem', display: 'flex', alignItems: 'center',
-      justifyContent: 'space-between', height: '64px',
-      position: 'sticky', top: 0, zIndex: 100,
-      boxShadow: '0 2px 12px var(--shadow)',
-    }}>
-      <Link href="/feed" style={{
-        fontFamily: "'Playfair Display', serif", fontSize: '1.45rem',
+    <nav className="app-navbar">
+      <Link href="/feed" className="app-navbar-brand" style={{
         color: 'var(--deep-brown)', textDecoration: 'none',
         display: 'flex', alignItems: 'center', gap: '0.4rem',
       }}>
         <span style={{ fontSize: '1.6rem' }}>🍲</span> Mom's Food Diary
       </Link>
 
-      <div style={{ display: 'flex', gap: '0.25rem' }}>
+      <div className="app-navbar-links" style={{ gap: '0.25rem' }}>
         {navLinks.map(({ href, label, icon: Icon }) => (
           <Link key={href} href={href} style={{
             display: 'flex', alignItems: 'center', gap: '0.35rem',
@@ -52,7 +45,7 @@ export default function Navbar({ username }: { username?: string }) {
         ))}
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <div className="app-navbar-user" style={{ gap: '1rem' }}>
         {username && (
           <Link href={`/profile/${username}`} style={{
             fontFamily: "'Caveat', cursive", fontSize: '1.1rem',
