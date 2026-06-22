@@ -136,3 +136,29 @@ as environment variables in the Vercel project dashboard.
 ---
 
 ## 💛 Built with love for moms everywhere
+
+npm run ranker:generate-synthetic-expert -- \
+  --model qwen3:32b \
+  --validator-model gemma3:27b \
+  --target-count 5000 \
+  --output pytorch_route_ranker/data/synthetic_expert_seed_qwen32b_gemma27b.jsonl \
+  --manifest pytorch_route_ranker/data/synthetic_expert_seed_qwen32b_gemma27b_manifest.json \
+  --progress pytorch_route_ranker/data/synthetic_expert_seed_qwen32b_gemma27b_progress.json \
+  --tasks-per-call 1 \
+  --single-examples-per-route 30 \
+  --hard-examples-per-route 15 \
+  --topic-examples-per-group 20 \
+  --purpose-examples-per-group 12 \
+  --contrast-route-limit 6 \
+  --group-route-context-limit 32 \
+  --route-topic-limit 8 \
+  --route-purpose-limit 3 \
+  --route-phrase-limit 6 \
+  --plain-keyword-limit 12 \
+  --include-descriptions \
+  --minimum-num-predict 1000 \
+  --num-predict-per-example 55 \
+  --num-ctx 16384 \
+  --timeout-seconds 600 \
+  --retries 5 \
+  --seed 20260622
