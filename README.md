@@ -194,3 +194,31 @@ npm run ranker:generate-synthetic-expert -- \
   --manifest pytorch_route_ranker/data/synthetic_expert_seed_manifest_v2.json \
   --progress pytorch_route_ranker/data/synthetic_expert_seed_progress_v2.json \
   --checkpoint pytorch_route_ranker/data/synthetic_expert_seed_checkpoint_v2.json
+
+python - <<'PY'
+from pathlib import Path
+import json
+from pytorch_route_ranker.app.text_features import normalize_text
+
+needle = normalize_text("lightning overlaid onto radar")
+paths = [
+    Path("pytorch_route_ranker/data/generated_training_examples.jsonl"),
+    Path("pytorch_route_ranker/data/expert_training_examples.jsonl"),
+    Path("pytorch_route_ranker/data/hard_example_training_data.jsonl"),
+    Path("pytorch_route_ranker/data/synthetic_expert_seed_examples.jsonl"),
+    Path("pytorch_route_ranker/data/synthetic_expert_seed_examples_v2.jsonl"),
+]
+
+for path in paths:
+    if not path.exists():
+        continue
+    with path.open(encoding="utf-8") as file:
+        for line_number, line in enumerate(file, 1):
+            if not line.strip():
+                continue
+            record = json.loads(line)
+            if normalize_text(record.get("query", "")) == needle:
+                print(path, line_number)
+                print(record)
+                print()
+PY
