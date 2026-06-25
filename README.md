@@ -165,3 +165,32 @@ npm run ranker:generate-synthetic-expert -- \
   --manifest pytorch_route_ranker/data/synthetic_expert_seed_manifest_v2.json \
   --progress pytorch_route_ranker/data/synthetic_expert_seed_progress_v2.json \
   --checkpoint pytorch_route_ranker/data/synthetic_expert_seed_checkpoint_v2.json
+
+  npm run ranker:generate-synthetic-expert -- \
+  --model qwen3:32b \
+  --validator-model gemma3:27b \
+  --target-count 3500 \
+  --tasks-per-call 1 \
+  --task-order balanced \
+  --single-examples-per-route 16 \
+  --hard-examples-per-route 8 \
+  --topic-examples-per-group 14 \
+  --purpose-examples-per-group 10 \
+  --contrast-route-limit 4 \
+  --group-route-context-limit 8 \
+  --route-topic-limit 5 \
+  --route-purpose-limit 2 \
+  --route-phrase-limit 3 \
+  --plain-keyword-limit 10 \
+  --include-descriptions \
+  --minimum-num-predict 850 \
+  --num-predict-per-example 55 \
+  --num-ctx 8192 \
+  --timeout-seconds 600 \
+  --retries 5 \
+  --seed 20260625 \
+  --no-resume \
+  --output pytorch_route_ranker/data/synthetic_expert_seed_examples_v2.jsonl \
+  --manifest pytorch_route_ranker/data/synthetic_expert_seed_manifest_v2.json \
+  --progress pytorch_route_ranker/data/synthetic_expert_seed_progress_v2.json \
+  --checkpoint pytorch_route_ranker/data/synthetic_expert_seed_checkpoint_v2.json
