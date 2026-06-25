@@ -137,107 +137,31 @@ as environment variables in the Vercel project dashboard.
 
 ## 💛 Built with love for moms everywhere
 
-You are helping refine an aviation routeRegistry for an AI navigation model.
-
-The AI receives a user query and must choose the most relevant AMIDS route(s). Your task is to improve the metadata quality of the route registry so both a lexical ranker and semantic encoder can match user wording to routes more accurately.
-
-You must preserve this exact object structure:
-{
-  "id": "...",
-  "title": "...",
-  "path": "...",
-  "description": "...",
-  "keywords": [...]
-}
-
-Strict rules:
-- Do not add or remove properties.
-- Do not change id.
-- Do not change path.
-- Do not invent new routes.
-- Only improve title, description, and keywords if needed.
-- Keep descriptions short, clear, and metadata-grounded.
-- Do not rely on outside aviation knowledge unless it is a common synonym or abbreviation.
-- Do not add generic standalone plain keywords like "weather", "data", "information", "display", "system", or "page" unless they are truly route-specific.
-- Prefer specific plain keyword phrases, usually 2-5 words.
-- Keep all keywords useful for matching likely user queries.
-
-Keyword format:
-Use these three labelled keyword types when appropriate:
-
-1. topic:
-Shared subject group. Should be common across related routes.
-Examples:
-"topic:wind"
-"topic:satellite imagery"
-"topic:regional weather"
-
-2. purpose:
-How the information is presented. Choose from this controlled vocabulary only:
-overview-dashboard
-live-status
-detailed-record
-data-table
-comparison-view
-time-series
-forecast-view
-historical-view
-alert-feed
-threshold-monitor
-map-view
-map-overlay
-imagery-view
-chart-view
-timeline-view
-report-view
-bulletin-feed
-source-document
-procedure-reference
-search-index
-multi-source-composite
-raw-data-view
-download-export
-audit-log
-notification-inbox
-interactive-tool
-
-Example:
-"purpose:forecast-view"
-
-3. route:
-Route-specific phrase or page identity. Usually close to the page title or common name.
-Examples:
-"route:radar satellite composite"
-"route:wind current observations"
-
-Plain keywords:
-Use plain keywords for likely user wording, abbreviations, aliases, and specific operational phrases.
-Good:
-"satellite cloud image"
-"radar satellite composite"
-"current runway wind"
-"crosswind threshold"
-"latest ATIS"
-Bad:
-"image"
-"weather"
-"current"
-"data"
-
-For each route:
-- Include 2-5 topic keywords.
-- Include exactly 1 purpose keyword unless the route truly has two presentation types.
-- Include 1-3 route keywords.
-- Include 6-12 plain keywords.
-- Prefer quality over quantity.
-- Avoid near-duplicate keywords unless they represent real user wording differences, such as "forecast" and "fcst".
-- If symbols appear, include a plain-word equivalent too.
-  Example:
-  "radar & satellite composite"
-  "radar satellite composite"
-
-Return only a valid JSON array.
-Do not output markdown.
-Do not explain your changes.
-
-Here is the routeRegistry chunk to refine:
+npm run ranker:generate-synthetic-expert -- \
+  --model qwen3:32b \
+  --validator-model gemma3:27b \
+  --target-count 5000 \
+  --tasks-per-call 1 \
+  --task-order balanced \
+  --single-examples-per-route 18 \
+  --hard-examples-per-route 8 \
+  --topic-examples-per-group 18 \
+  --purpose-examples-per-group 12 \
+  --contrast-route-limit 4 \
+  --group-route-context-limit 8 \
+  --route-topic-limit 5 \
+  --route-purpose-limit 2 \
+  --route-phrase-limit 3 \
+  --plain-keyword-limit 10 \
+  --include-descriptions \
+  --minimum-num-predict 900 \
+  --num-predict-per-example 60 \
+  --num-ctx 8192 \
+  --timeout-seconds 600 \
+  --retries 5 \
+  --seed 20260625 \
+  --no-resume \
+  --output pytorch_route_ranker/data/synthetic_expert_seed_examples_v2.jsonl \
+  --manifest pytorch_route_ranker/data/synthetic_expert_seed_manifest_v2.json \
+  --progress pytorch_route_ranker/data/synthetic_expert_seed_progress_v2.json \
+  --checkpoint pytorch_route_ranker/data/synthetic_expert_seed_checkpoint_v2.json
