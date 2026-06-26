@@ -239,3 +239,73 @@ npm run ranker:generate-held-out-candidates -- \
   --timeout-seconds 240 \
   --retries 4 \
   --seed 42
+
+
+  1. Normal Generated Data: About 10,000
+npm run ranker:generate -- \
+  --seed 42 \
+  --random-variants-per-anchor 10 \
+  --typo-variants-per-example 1 \
+  --max-typos 1 \
+  --max-route-keyword-anchors 10 \
+  --contrast-routes-per-route 2 \
+  --max-single-examples-per-route 70 \
+  --max-multiple-examples-per-route-set 35
+Check count:
+wc -l pytorch_route_ranker/data/generated_training_examples.jsonl
+If too high, reduce --max-single-examples-per-route to 60 or 65. If too low, increase to 75 or 80.
+2. Synthetic Expert Seed: About 12,000
+npm run ranker:generate-synthetic-expert -- \
+  --model qwen3:30b \
+  --validator-model command-r:35b \
+  --target-count 12000 \
+  --tasks-per-call 2 \
+  --task-order shuffled-balanced \
+  --single-examples-per-route 35 \
+  --hard-examples-per-route 18 \
+  --topic-examples-per-group 30 \
+  --purpose-examples-per-group 22 \
+  --bundle-examples-per-pair 10 \
+  --bundle-task-limit 350 \
+  --bundle-candidates-per-route 4 \
+  --contrast-route-limit 3 \
+  --include-descriptions \
+  --minimum-num-predict 1200 \
+  --num-predict-per-example 55 \
+  --num-ctx 4096 \
+  --timeout-seconds 420 \
+  --retries 5 \
+  --seed 42 \
+  --no-resume
+This uses Qwen for generation and Command R for validation, as you wanted.
+3. Hard Examples
+Only run this when you already have approved correction evidence.
+npm run ranker:generate-hard-examples -- \
+  --model command-r:35b \
+  --validator-model qwen3:30b \
+  --generate-count 30 \
+  --max-paraphrases 15 \
+  --timeout-seconds 300 \
+  --retries 5 \
+  --seed 42
+Hard examples should stay review-driven. I would not try to force thousands of these yet.
+4. Held-Out Candidates
+I’d generate around 800. That is enough to review and evaluate without turning held-out data into another synthetic training-sized dataset.
+npm run ranker:generate-heldout-candidates -- \
+  --model gemma3:27b \
+  --validator-model qwen3:30b \
+  --target-count 800 \
+  --tasks-per-call 2 \
+  --task-order shuffled-balanced \
+  --candidate-variants-per-combination 12 \
+  --single-examples-per-route 4 \
+  --hard-examples-per-route 4 \
+  --topic-examples-per-group 8 \
+  --purpose-examples-per-group 6 \
+  --include-descriptions \
+  --minimum-num-predict 900 \
+  --num-predict-per-example 55 \
+  --num-ctx 4096 \
+  --timeout-seconds 360 \
+  --retries 5 \
+  --seed 84
