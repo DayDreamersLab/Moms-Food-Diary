@@ -222,3 +222,20 @@ for path in paths:
                 print(record)
                 print()
 PY
+
+npm run ranker:generate-held-out-candidates -- \
+  --model qwen3:30b \
+  --validator-model gemma3:27b \
+  --target-count 200 \
+  --tasks-per-call 2 \
+  --candidate-variants-per-combination 4 \
+  --single-examples-per-route 1 \
+  --hard-examples-per-route 1 \
+  --topic-examples-per-group 2 \
+  --purpose-examples-per-group 1 \
+  --num-ctx 4096 \
+  --minimum-num-predict 600 \
+  --num-predict-per-example 40 \
+  --timeout-seconds 240 \
+  --retries 4 \
+  --seed 42
