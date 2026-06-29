@@ -335,3 +335,29 @@ npm run ranker:generate-heldout-candidates -- \
   --timeout-seconds 360 \
   --retries 5 \
   --seed 84
+
+   npm run ranker:generate-heldout-candidates -- \
+  --model command-r:35b \
+  --validator-model qwen3:30b \
+  --target-count 1500 \
+  --tasks-per-call 2 \
+  --task-order shuffled-balanced \
+  --single-examples-per-route 10 \
+  --hard-examples-per-route 8 \
+  --topic-examples-per-group 12 \
+  --purpose-examples-per-group 8 \
+  --candidate-variants-per-combination 14 \
+  --contrast-route-limit 4 \
+  --group-route-context-limit 10 \
+  --route-topic-limit 8 \
+  --route-purpose-limit 3 \
+  --route-phrase-limit 5 \
+  --plain-keyword-limit 12 \
+  --include-descriptions \
+  --minimum-num-predict 900 \
+  --num-predict-per-example 60 \
+  --num-ctx 4096 \
+  --near-duplicate-threshold 0.92 \
+  --timeout-seconds 360 \
+  --retries 5 \
+  --seed 84
