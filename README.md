@@ -277,8 +277,34 @@ npm run ranker:generate-synthetic-expert -- \
   --retries 5 \
   --seed 42 \
   --no-resume
+   
 This uses Qwen for generation and Command R for validation, as you wanted.
-3. Hard Examples
+
+top-up:
+npm run ranker:generate-synthetic-expert -- \
+  --model qwen3:30b \
+  --validator-model command-r:35b \
+  --target-count 12000 \
+  --tasks-per-call 2 \
+  --task-order shuffled-balanced \
+  --single-examples-per-route 50 \
+  --hard-examples-per-route 25 \
+  --topic-examples-per-group 45 \
+  --purpose-examples-per-group 35 \
+  --bundle-examples-per-pair 14 \
+  --bundle-task-limit 700 \
+  --bundle-candidates-per-route 6 \
+  --contrast-route-limit 4 \
+  --include-descriptions \
+  --minimum-num-predict 1500 \
+  --num-predict-per-example 65 \
+  --num-ctx 8192 \
+  --timeout-seconds 600 \
+  --retries 5 \
+  --seed 43 \
+  --no-resume
+
+4. Hard Examples
 Only run this when you already have approved correction evidence.
 npm run ranker:generate-hard-examples -- \
   --model command-r:35b \
@@ -289,7 +315,7 @@ npm run ranker:generate-hard-examples -- \
   --retries 5 \
   --seed 42
 Hard examples should stay review-driven. I would not try to force thousands of these yet.
-4. Held-Out Candidates
+5. Held-Out Candidates
 I’d generate around 800. That is enough to review and evaluate without turning held-out data into another synthetic training-sized dataset.
 npm run ranker:generate-heldout-candidates -- \
   --model gemma3:27b \
