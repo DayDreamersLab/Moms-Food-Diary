@@ -392,3 +392,43 @@ npm run ranker:generate-heldout-candidates -- \
   --timeout-seconds 420 \
   --retries 5 \
   --seed 84
+
+Run 1: Moderate anti-overfit
+npm run ranker:train -- \
+  --epochs 20 \
+  --batch-size 32 \
+  --learning-rate 0.0003 \
+  --weight-decay 0.002 \
+  --dropout 0.35 \
+  --relevance-label-smoothing 0.08 \
+  --relevance-positive-weight 3 \
+  --scope-loss-weight 0.25 \
+  --validation-fraction 0.20 \
+  --seed 42 \
+  --device cuda
+Run 2: Stronger regularization
+npm run ranker:train -- \
+  --epochs 18 \
+  --batch-size 32 \
+  --learning-rate 0.00025 \
+  --weight-decay 0.004 \
+  --dropout 0.45 \
+  --relevance-label-smoothing 0.10 \
+  --relevance-positive-weight 2.5 \
+  --scope-loss-weight 0.2 \
+  --validation-fraction 0.20 \
+  --seed 42 \
+  --device cuda
+Run 3: If it underfits
+npm run ranker:train -- \
+  --epochs 25 \
+  --batch-size 32 \
+  --learning-rate 0.0005 \
+  --weight-decay 0.001 \
+  --dropout 0.30 \
+  --relevance-label-smoothing 0.05 \
+  --relevance-positive-weight 4 \
+  --scope-loss-weight 0.3 \
+  --validation-fraction 0.20 \
+  --seed 42 \
+  --device cuda
