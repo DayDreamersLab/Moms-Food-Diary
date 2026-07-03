@@ -432,3 +432,30 @@ npm run ranker:train -- \
   --validation-fraction 0.20 \
   --seed 42 \
   --device cuda
+
+  npm run ranker:generate-synthetic-expert -- \
+  --model qwen3:30b \
+  --validator-model command-r:35b \
+  --target-count 3000 \
+  --tasks-per-call 2 \
+  --task-order shuffled-balanced \
+  --single-examples-per-route 18 \
+  --hard-examples-per-route 8 \
+  --topic-examples-per-group 16 \
+  --purpose-examples-per-group 10 \
+  --bundle-examples-per-pair 6 \
+  --bundle-task-limit 180 \
+  --bundle-candidates-per-route 4 \
+  --contrast-route-limit 3 \
+  --group-route-context-limit 8 \
+  --route-topic-limit 5 \
+  --route-purpose-limit 2 \
+  --route-phrase-limit 4 \
+  --plain-keyword-limit 10 \
+  --include-descriptions \
+  --minimum-num-predict 1000 \
+  --num-predict-per-example 55 \
+  --num-ctx 4096 \
+  --timeout-seconds 420 \
+  --retries 5 \
+  --seed 42
