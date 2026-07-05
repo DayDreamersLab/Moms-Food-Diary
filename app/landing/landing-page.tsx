@@ -4,12 +4,18 @@ import { useEffect, useState } from 'react';
 
 export default function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
+  const [recipeIconClicks, setRecipeIconClicks] = useState(0);
+  const recipeIconReady = recipeIconClicks >= 10;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  function handleRecipeIconClick() {
+    setRecipeIconClicks(clicks => Math.min(clicks + 1, 10));
+  }
 
   return (
     <div style={{ fontFamily: "'Lora', Georgia, serif", color: 'var(--ink)', overflowX: 'hidden' }}>
@@ -398,7 +404,47 @@ export default function LandingPage() {
         background: 'linear-gradient(170deg, var(--cream), var(--parchment))',
         borderTop: '1.5px solid rgba(200,149,108,0.25)',
       }}>
-        <span className="sway" style={{ fontSize: '4rem', display: 'block', marginBottom: '1.5rem' }}>🍲</span>
+        <div className={`recipe-easter-egg ${recipeIconReady ? 'recipe-easter-egg--ready' : ''}`}>
+          {recipeIconReady ? (
+            <Link
+              href="/birthday-letter"
+              className="recipe-cake-button"
+              aria-label="Open birthday letter"
+            >
+              🎂
+            </Link>
+          ) : (
+            <button
+              type="button"
+              className="recipe-pot-button"
+              onClick={handleRecipeIconClick}
+              aria-label="Mom's recipes"
+              style={{
+                ['--recipe-click-scale' as any]: 1 + recipeIconClicks * 0.13,
+              }}
+            >
+              🍲
+            </button>
+          )}
+          {recipeIconClicks > 0 && !recipeIconReady && (
+            <span
+              className="recipe-click-spark"
+              key={recipeIconClicks}
+              aria-hidden="true"
+            >
+              ✦
+            </span>
+          )}
+          {recipeIconReady && (
+            <span className="recipe-burst" aria-hidden="true">
+              <span>✦</span>
+              <span>✧</span>
+              <span>✦</span>
+              <span>✧</span>
+              <span>✦</span>
+            </span>
+          )}
+        </div>
         <h2 style={{
           fontFamily: "'Playfair Display', serif",
           fontSize: 'clamp(2rem, 5vw, 3.5rem)',

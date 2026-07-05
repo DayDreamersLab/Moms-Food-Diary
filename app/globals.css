@@ -367,6 +367,129 @@ body::before {
   }
 }
 
+.recipe-easter-egg {
+  position: relative;
+  width: 128px;
+  height: 128px;
+  margin: 0 auto 1.5rem;
+  display: grid;
+  place-items: center;
+}
+
+.recipe-pot-button,
+.recipe-cake-button {
+  width: 96px;
+  height: 96px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 4rem;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transform: scale(var(--recipe-click-scale, 1));
+  transform-origin: center;
+  transition: transform 180ms ease, filter 180ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.recipe-pot-button:hover,
+.recipe-cake-button:hover {
+  filter: drop-shadow(0 10px 18px rgba(122, 79, 46, 0.18));
+}
+
+.recipe-pot-button:active {
+  transform: scale(calc(var(--recipe-click-scale, 1) + 0.08));
+}
+
+.recipe-pot-button:focus-visible,
+.recipe-cake-button:focus-visible {
+  outline: 3px solid rgba(184, 92, 42, 0.4);
+  outline-offset: 6px;
+}
+
+.recipe-click-spark {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  color: var(--gold);
+  font-family: Georgia, serif;
+  font-size: 1.7rem;
+  pointer-events: none;
+  animation: recipeSparkPop 420ms ease both;
+}
+
+.recipe-easter-egg--ready::before {
+  content: '';
+  position: absolute;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(212, 168, 83, 0.24) 0 34%, transparent 35%),
+    conic-gradient(from 0deg, transparent, rgba(184, 92, 42, 0.24), transparent, rgba(138, 158, 122, 0.22), transparent);
+  animation: recipeBurstRing 720ms ease both;
+}
+
+.recipe-cake-button {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 250, 244, 0.72);
+  border: 1.5px solid rgba(200, 149, 108, 0.34);
+  box-shadow: 0 10px 28px rgba(122, 79, 46, 0.14);
+  animation: recipeCakeArrive 620ms cubic-bezier(.2, .72, .18, 1) both;
+}
+
+.recipe-burst {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.recipe-burst span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  color: var(--gold);
+  font-family: Georgia, serif;
+  font-size: 1.6rem;
+  opacity: 0;
+  animation: recipeBurstStar 820ms ease both;
+}
+
+.recipe-burst span:nth-child(1) { --burst-x: -58px; --burst-y: -52px; animation-delay: 40ms; }
+.recipe-burst span:nth-child(2) { --burst-x: 58px; --burst-y: -42px; animation-delay: 80ms; }
+.recipe-burst span:nth-child(3) { --burst-x: -66px; --burst-y: 18px; animation-delay: 120ms; }
+.recipe-burst span:nth-child(4) { --burst-x: 62px; --burst-y: 28px; animation-delay: 160ms; }
+.recipe-burst span:nth-child(5) { --burst-x: 0px; --burst-y: -70px; animation-delay: 200ms; }
+
+@keyframes recipeSparkPop {
+  0% { opacity: 0; transform: translateY(8px) scale(0.55) rotate(-16deg); }
+  40% { opacity: 1; transform: translateY(-4px) scale(1.1) rotate(8deg); }
+  100% { opacity: 0; transform: translateY(-16px) scale(0.75) rotate(18deg); }
+}
+
+@keyframes recipeBurstRing {
+  0% { opacity: 0; transform: scale(0.42) rotate(0deg); }
+  42% { opacity: 1; transform: scale(1.22) rotate(18deg); }
+  100% { opacity: 0; transform: scale(1.72) rotate(34deg); }
+}
+
+@keyframes recipeCakeArrive {
+  0% { opacity: 0; transform: scale(0.2) rotate(-18deg); }
+  58% { opacity: 1; transform: scale(1.18) rotate(7deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes recipeBurstStar {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+  40% { opacity: 1; transform: translate(calc(-50% + var(--burst-x)), calc(-50% + var(--burst-y))) scale(1.1); }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--burst-x)), calc(-50% + var(--burst-y))) scale(0.7); }
+}
+
 .birthday-page {
   min-height: 100vh;
   overflow: hidden;
