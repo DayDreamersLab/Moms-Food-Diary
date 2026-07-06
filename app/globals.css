@@ -609,6 +609,7 @@ body::before {
     repeating-linear-gradient(45deg, transparent 0 14px, rgba(200, 149, 108, 0.08) 14px 15px);
   border: 2px solid rgba(200, 149, 108, 0.42);
   box-shadow: 0 18px 48px rgba(122, 79, 46, 0.16);
+  z-index: 1;
 }
 
 .envelope-left {
@@ -648,6 +649,14 @@ body::before {
   z-index: 1;
 }
 
+.letter-scene--open .envelope-back,
+.letter-scene--open .envelope-left,
+.letter-scene--open .envelope-right,
+.letter-scene--open .envelope-bottom,
+.letter-scene--open .envelope-flap {
+  pointer-events: none;
+}
+
 .letter-paper {
   position: absolute;
   left: 10%;
@@ -664,14 +673,14 @@ body::before {
     linear-gradient(rgba(255, 250, 244, 0.9), rgba(255, 250, 244, 0.9)),
     repeating-linear-gradient(to bottom, transparent 0 29px, rgba(122, 79, 46, 0.1) 29px 30px);
   box-shadow: 0 12px 36px rgba(122, 79, 46, 0.12);
-  transform: translateY(42%) scale(0.94);
+  transform: translateY(14%) scale(0.94);
   transition: transform 850ms cubic-bezier(.2, .72, .18, 1) 130ms;
-  z-index: 3;
+  z-index: 2;
 }
 
 .letter-scene--open .letter-paper {
   transform: translateY(-48%) scale(1);
-  z-index: 6;
+  z-index: 9;
 }
 
 .letter-scene--open .letter-paper {

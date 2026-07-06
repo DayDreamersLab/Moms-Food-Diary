@@ -19,7 +19,14 @@ export default function BirthdayLetterPage() {
   }, []);
 
   function handleSceneClick(event: MouseEvent<HTMLButtonElement>) {
-    const clickedPaper = (event.target as HTMLElement).closest('.letter-paper');
+    const paper = event.currentTarget.querySelector('.letter-paper');
+    const paperRect = paper?.getBoundingClientRect();
+    const clickedPaper = paperRect
+      ? event.clientX >= paperRect.left &&
+        event.clientX <= paperRect.right &&
+        event.clientY >= paperRect.top &&
+        event.clientY <= paperRect.bottom
+      : false;
 
     if (isOpen && clickedPaper) {
       setIsZoomed(true);
@@ -78,7 +85,7 @@ export default function BirthdayLetterPage() {
             </span>
           </span>
 
-          <span className="letter-hint">{isOpen ? 'Letter opened' : 'Tap to open'}</span>
+          {!isOpen && <span className="letter-hint">Tap to open</span>}
         </button>
 
         <div className="birthday-actions">
