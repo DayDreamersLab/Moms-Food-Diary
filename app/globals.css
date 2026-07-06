@@ -670,8 +670,8 @@ body::before {
   border-radius: 8px;
   border: 1px solid rgba(200, 149, 108, 0.35);
   background:
-    linear-gradient(rgba(255, 250, 244, 0.9), rgba(255, 250, 244, 0.9)),
-    repeating-linear-gradient(to bottom, transparent 0 29px, rgba(122, 79, 46, 0.1) 29px 30px);
+    repeating-linear-gradient(to bottom, transparent 0 29px, rgba(122, 79, 46, 0.1) 29px 30px),
+    var(--warm-white);
   box-shadow: 0 12px 36px rgba(122, 79, 46, 0.12);
   transform: translateY(14%) scale(0.94);
   transition: transform 850ms cubic-bezier(.2, .72, .18, 1) 130ms;
@@ -833,8 +833,8 @@ body::before {
   border-radius: 10px;
   border: 1.5px solid rgba(200, 149, 108, 0.42);
   background:
-    linear-gradient(rgba(255, 250, 244, 0.94), rgba(255, 250, 244, 0.94)),
-    repeating-linear-gradient(to bottom, transparent 0 34px, rgba(122, 79, 46, 0.1) 34px 35px);
+    repeating-linear-gradient(to bottom, transparent 0 34px, rgba(122, 79, 46, 0.1) 34px 35px),
+    var(--warm-white);
   box-shadow: 0 28px 90px rgba(61, 43, 31, 0.28);
   animation: letterZoomIn 260ms cubic-bezier(.2, .72, .18, 1) both;
 }
