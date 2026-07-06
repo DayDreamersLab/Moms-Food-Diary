@@ -1,10 +1,13 @@
 'use client';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function LandingPage() {
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [recipeIconClicks, setRecipeIconClicks] = useState(0);
+  const [birthdayTransitioning, setBirthdayTransitioning] = useState(false);
   const recipeIconReady = recipeIconClicks >= 10;
 
   useEffect(() => {
@@ -17,8 +20,34 @@ export default function LandingPage() {
     setRecipeIconClicks(clicks => Math.min(clicks + 1, 10));
   }
 
+  function openBirthdaySurprise() {
+    if (birthdayTransitioning) return;
+    setBirthdayTransitioning(true);
+    window.setTimeout(() => router.push('/birthday-letter'), 2300);
+  }
+
   return (
     <div style={{ fontFamily: "'Lora', Georgia, serif", color: 'var(--ink)', overflowX: 'hidden' }}>
+      {birthdayTransitioning && (
+        <div className="birthday-confetti-transition" aria-hidden="true">
+          <div className="birthday-confetti-rain">
+            {Array.from({ length: 48 }).map((_, index) => (
+              <span
+                key={index}
+                style={{
+                  ['--confetti-left' as any]: `${(index * 23) % 100}%`,
+                  ['--confetti-delay' as any]: `${(index % 12) * 0.08}s`,
+                  ['--confetti-duration' as any]: `${1.35 + (index % 7) * 0.12}s`,
+                  ['--confetti-drift' as any]: `${((index % 9) - 4) * 10}px`,
+                  ['--confetti-rotate' as any]: `${90 + (index % 6) * 55}deg`,
+                  ['--confetti-color' as any]: ['#d4a853', '#b85c2a', '#8a9e7a', '#c8956c', '#fffaf4'][index % 5],
+                }}
+              />
+            ))}
+          </div>
+          <div className="birthday-transition-message">Opening birthday letter...</div>
+        </div>
+      )}
 
       {/* ── STICKY NAV ── */}
       <nav className="landing-nav" style={{
@@ -406,13 +435,15 @@ export default function LandingPage() {
       }}>
         <div className={`recipe-easter-egg ${recipeIconReady ? 'recipe-easter-egg--ready' : ''}`}>
           {recipeIconReady ? (
-            <Link
-              href="/birthday-letter"
+            <button
+              type="button"
               className="recipe-cake-button"
+              onClick={openBirthdaySurprise}
+              disabled={birthdayTransitioning}
               aria-label="Open birthday letter"
             >
               🎂
-            </Link>
+            </button>
           ) : (
             <button
               type="button"
