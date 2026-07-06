@@ -1,10 +1,38 @@
 'use client';
 
-import { RotateCcw, Sparkles } from 'lucide-react';
-import { useState } from 'react';
+import { RotateCcw, Sparkles, X } from 'lucide-react';
+import { type MouseEvent, useEffect, useState } from 'react';
 
 export default function BirthdayLetterPage() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isZoomed, setIsZoomed] = useState(false);
+
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setIsZoomed(false);
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
+
+  function handleSceneClick(event: MouseEvent<HTMLButtonElement>) {
+    const clickedPaper = (event.target as HTMLElement).closest('.letter-paper');
+
+    if (isOpen && clickedPaper) {
+      setIsZoomed(true);
+      return;
+    }
+
+    setIsOpen(true);
+  }
+
+  function replayLetter() {
+    setIsZoomed(false);
+    setIsOpen(false);
+  }
 
   return (
     <main className="birthday-page">
@@ -21,8 +49,8 @@ export default function BirthdayLetterPage() {
         <button
           type="button"
           className={`letter-scene ${isOpen ? 'letter-scene--open' : ''}`}
-          onClick={() => setIsOpen(true)}
-          aria-label={isOpen ? 'Birthday letter is open' : 'Open the birthday letter'}
+          onClick={handleSceneClick}
+          aria-label={isOpen ? 'Zoom the birthday letter' : 'Open the birthday letter'}
           aria-pressed={isOpen}
         >
           <span className="sparkle sparkle-one">✦</span>
@@ -31,7 +59,7 @@ export default function BirthdayLetterPage() {
 
           <span className="envelope-shadow" />
           <span className="envelope">
-            <span className="letter-paper">
+            <span className="letter-paper" title={isOpen ? 'Click to zoom' : undefined}>
               <span className="letter-date">July 4, 2026</span>
               <span className="letter-title">Happy Birthday, Mom</span>
               <span className="letter-body">
@@ -54,12 +82,40 @@ export default function BirthdayLetterPage() {
         </button>
 
         <div className="birthday-actions">
-          <button type="button" onClick={() => setIsOpen(false)} disabled={!isOpen}>
+          <button type="button" onClick={replayLetter} disabled={!isOpen}>
             <RotateCcw size={18} aria-hidden="true" />
             Replay
           </button>
         </div>
       </section>
+
+      {isZoomed && (
+        <div
+          className="letter-zoom-backdrop"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Birthday letter fullscreen view"
+          onClick={() => setIsZoomed(false)}
+        >
+          <div className="letter-zoom-paper" onClick={event => event.stopPropagation()}>
+            <button
+              type="button"
+              className="letter-zoom-close"
+              onClick={() => setIsZoomed(false)}
+              aria-label="Close fullscreen letter"
+            >
+              <X size={22} aria-hidden="true" />
+            </button>
+            <span className="letter-date">July 4, 2026</span>
+            <span className="letter-title">Happy Birthday, Mom</span>
+            <span className="letter-body">
+              Thank you for every meal, every story, and every quiet way you made home
+              feel safe. Today is for celebrating you.
+            </span>
+            <span className="letter-signature">Love, always</span>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

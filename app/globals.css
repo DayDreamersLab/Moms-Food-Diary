@@ -674,6 +674,10 @@ body::before {
   z-index: 6;
 }
 
+.letter-scene--open .letter-paper {
+  cursor: zoom-in;
+}
+
 .letter-date {
   color: var(--warm-gray);
   font-size: clamp(0.72rem, 1.8vw, 0.84rem);
@@ -795,6 +799,86 @@ body::before {
   opacity: 0.48;
 }
 
+.letter-zoom-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  padding: clamp(18px, 4vw, 48px);
+  display: grid;
+  place-items: center;
+  background: rgba(61, 43, 31, 0.48);
+  backdrop-filter: blur(10px);
+  animation: letterZoomFade 180ms ease both;
+}
+
+.letter-zoom-paper {
+  position: relative;
+  width: min(720px, 100%);
+  min-height: min(760px, calc(100vh - 48px));
+  max-height: calc(100vh - 36px);
+  overflow: auto;
+  padding: clamp(32px, 6vw, 64px);
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  border-radius: 10px;
+  border: 1.5px solid rgba(200, 149, 108, 0.42);
+  background:
+    linear-gradient(rgba(255, 250, 244, 0.94), rgba(255, 250, 244, 0.94)),
+    repeating-linear-gradient(to bottom, transparent 0 34px, rgba(122, 79, 46, 0.1) 34px 35px);
+  box-shadow: 0 28px 90px rgba(61, 43, 31, 0.28);
+  animation: letterZoomIn 260ms cubic-bezier(.2, .72, .18, 1) both;
+}
+
+.letter-zoom-paper .letter-date {
+  font-size: clamp(0.85rem, 2vw, 1rem);
+}
+
+.letter-zoom-paper .letter-title {
+  max-width: 520px;
+  font-size: clamp(2.4rem, 8vw, 4.8rem);
+}
+
+.letter-zoom-paper .letter-body {
+  max-width: 560px;
+  font-size: clamp(1rem, 2.4vw, 1.26rem);
+}
+
+.letter-zoom-paper .letter-signature {
+  font-size: clamp(2rem, 6vw, 3rem);
+}
+
+.letter-zoom-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(200, 149, 108, 0.36);
+  border-radius: 50%;
+  color: var(--deep-brown);
+  background: rgba(255, 250, 244, 0.9);
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(122, 79, 46, 0.1);
+}
+
+.letter-zoom-close:focus-visible {
+  outline: 3px solid rgba(184, 92, 42, 0.4);
+  outline-offset: 4px;
+}
+
+@keyframes letterZoomFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes letterZoomIn {
+  from { opacity: 0; transform: translateY(18px) scale(0.92); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 @media (max-width: 760px) {
   .birthday-stage {
     min-height: auto;
@@ -822,6 +906,15 @@ body::before {
     bottom: 24px;
     transform: translateX(-50%);
   }
+
+  .letter-zoom-backdrop {
+    padding: 14px;
+  }
+
+  .letter-zoom-paper {
+    min-height: calc(100vh - 28px);
+    padding: 58px 24px 32px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -832,5 +925,10 @@ body::before {
   .wax-seal,
   .sparkle {
     transition: none;
+  }
+
+  .letter-zoom-backdrop,
+  .letter-zoom-paper {
+    animation: none;
   }
 }
