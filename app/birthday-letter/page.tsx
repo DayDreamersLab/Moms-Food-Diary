@@ -68,7 +68,7 @@ export default function BirthdayLetterPage() {
           <span className="envelope">
             <span className="letter-paper" title={isOpen ? 'Click to zoom' : undefined}>
               <span className="letter-date">July 4, 2026</span>
-              <span className="letter-title">Happy Birthday, Mom</span>
+              <span className="letter-title">생일 축하해요, 엄마</span>
               <span className="letter-body">
                 Thank you for every meal, every story, and every quiet way you made home
                 feel safe. Today is for celebrating you.
