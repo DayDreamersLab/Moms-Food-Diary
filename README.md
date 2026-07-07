@@ -240,101 +240,114 @@ npm run ranker:generate-held-out-candidates -- \
   --retries 4 \
   --seed 42
 
-
-  1. Normal Generated Data: About 10,000
-npm run ranker:generate -- \
-  --seed 42 \
-  --random-variants-per-anchor 10 \
-  --typo-variants-per-example 1 \
-  --max-typos 1 \
-  --max-route-keyword-anchors 10 \
-  --contrast-routes-per-route 2 \
-  --max-single-examples-per-route 70 \
-  --max-multiple-examples-per-route-set 35
-Check count:
-wc -l pytorch_route_ranker/data/generated_training_examples.jsonl
-If too high, reduce --max-single-examples-per-route to 60 or 65. If too low, increase to 75 or 80.
-2. Synthetic Expert Seed: About 12,000
+1. Synthetic Expert Seed
+High-quality training data, balanced against your normal generated set:
 npm run ranker:generate-synthetic-expert -- \
   --model qwen3:30b \
   --validator-model command-r:35b \
-  --target-count 12000 \
+  --target-count 10000 \
   --tasks-per-call 2 \
   --task-order shuffled-balanced \
-  --single-examples-per-route 35 \
-  --hard-examples-per-route 18 \
-  --topic-examples-per-group 30 \
-  --purpose-examples-per-group 22 \
-  --bundle-examples-per-pair 10 \
-  --bundle-task-limit 350 \
+  --single-examples-per-route 28 \
+  --hard-examples-per-route 14 \
+  --topic-examples-per-group 24 \
+  --purpose-examples-per-group 18 \
+  --bundle-examples-per-pair 8 \
+  --bundle-task-limit 300 \
   --bundle-candidates-per-route 4 \
-  --contrast-route-limit 3 \
+  --contrast-route-limit 4 \
+  --group-route-context-limit 10 \
+  --route-topic-limit 8 \
+  --route-purpose-limit 4 \
+  --route-phrase-limit 6 \
+  --plain-keyword-limit 14 \
   --include-descriptions \
-  --minimum-num-predict 1200 \
+  --minimum-num-predict 1000 \
   --num-predict-per-example 55 \
   --num-ctx 4096 \
   --timeout-seconds 420 \
   --retries 5 \
-  --seed 42 \
-  --no-resume
-   
-This uses Qwen for generation and Command R for validation, as you wanted.
-
-top-up:
-npm run ranker:generate-synthetic-expert -- \
-  --model qwen3:30b \
-  --validator-model command-r:35b \
-  --target-count 12000 \
+  --seed 142
+If it reaches 10,000 cleanly and quality still looks good, later rerun with --target-count 12000.
+2. Scope-Focused Test Candidates
+Use this for testing the scope classifier, not normal model training:
+npm run ranker:generate-scope-test -- \
+  --model qwen3:32b \
+  --validator-model gemma3:27b \
+  --target-count 2000 \
   --tasks-per-call 2 \
   --task-order shuffled-balanced \
-  --single-examples-per-route 50 \
-  --hard-examples-per-route 25 \
-  --topic-examples-per-group 45 \
-  --purpose-examples-per-group 35 \
-  --bundle-examples-per-pair 14 \
-  --bundle-task-limit 700 \
-  --bundle-candidates-per-route 6 \
+  --single-trap-examples-per-route 8 \
+  --combined-product-examples-per-route 6 \
+  --topic-examples-per-group 12 \
+  --bundle-examples-per-pair 8 \
+  --bundle-task-limit 250 \
+  --bundle-candidates-per-route 4 \
+  --candidate-multiplier 6 \
   --contrast-route-limit 4 \
-  --include-descriptions \
-  --minimum-num-predict 1500 \
-  --num-predict-per-example 65 \
-  --num-ctx 8192 \
-  --timeout-seconds 600 \
-  --retries 5 \
-  --seed 43 \
-  --no-resume
-
-4. Hard Examples
-Only run this when you already have approved correction evidence.
-npm run ranker:generate-hard-examples -- \
-  --model command-r:35b \
-  --validator-model qwen3:30b \
-  --generate-count 30 \
-  --max-paraphrases 15 \
-  --timeout-seconds 300 \
-  --retries 5 \
-  --seed 42
-Hard examples should stay review-driven. I would not try to force thousands of these yet.
-5. Held-Out Candidates
-I’d generate around 800. That is enough to review and evaluate without turning held-out data into another synthetic training-sized dataset.
-npm run ranker:generate-heldout-candidates -- \
-  --model gemma3:27b \
-  --validator-model qwen3:30b \
-  --target-count 800 \
-  --tasks-per-call 2 \
-  --task-order shuffled-balanced \
-  --candidate-variants-per-combination 12 \
-  --single-examples-per-route 4 \
-  --hard-examples-per-route 4 \
-  --topic-examples-per-group 8 \
-  --purpose-examples-per-group 6 \
+  --group-route-context-limit 10 \
+  --route-topic-limit 8 \
+  --route-purpose-limit 4 \
+  --route-phrase-limit 6 \
+  --plain-keyword-limit 14 \
   --include-descriptions \
   --minimum-num-predict 900 \
   --num-predict-per-example 55 \
+  --validation-minimum-num-predict 500 \
+  --validation-num-predict-per-candidate 35 \
   --num-ctx 4096 \
+  --near-duplicate-threshold 0.92 \
   --timeout-seconds 360 \
   --retries 5 \
-  --seed 84
+  --seed 242
+3. Held-Out Candidates
+Use these to build a strong evaluation set after review:
+npm run ranker:generate-heldout-candidates -- \
+  --model command-r:35b \
+  --validator-model qwen3:32b \
+  --target-count 3000 \
+  --tasks-per-call 2 \
+  --task-order shuffled-balanced \
+  --single-examples-per-route 8 \
+  --hard-examples-per-route 6 \
+  --topic-examples-per-group 10 \
+  --purpose-examples-per-group 8 \
+  --bundle-examples-per-pair 6 \
+  --bundle-task-limit 300 \
+  --bundle-candidates-per-route 4 \
+  --candidate-variants-per-combination 12 \
+  --accepted-per-combination 2 \
+  --contrast-route-limit 4 \
+  --group-route-context-limit 10 \
+  --route-topic-limit 8 \
+  --route-purpose-limit 4 \
+  --route-phrase-limit 6 \
+  --plain-keyword-limit 14 \
+  --include-descriptions \
+  --minimum-num-predict 900 \
+  --num-predict-per-example 60 \
+  --num-ctx 4096 \
+  --near-duplicate-threshold 0.92 \
+  --coverage-near-duplicate-threshold 0.96 \
+  --timeout-seconds 420 \
+  --retries 5 \
+  --seed 342
+4. Hard Examples
+Only useful if you already have approved review evidence:
+npm run ranker:generate-hard-examples -- \
+  --model command-r:35b \
+  --validator-model qwen3:32b \
+  --generate-count 24 \
+  --max-paraphrases 8 \
+  --limit-corrections 0 \
+  --num-ctx 4096 \
+  --minimum-num-predict 700 \
+  --num-predict-per-paraphrase 45 \
+  --validation-minimum-num-predict 500 \
+  --validation-num-predict-per-candidate 35 \
+  --timeout-seconds 360 \
+  --retries 5 \
+  --seed 442
 
    npm run ranker:generate-heldout-candidates -- \
   --model command-r:35b \
