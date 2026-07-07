@@ -767,7 +767,7 @@ body::before {
 
 .letter-scene--open .letter-paper {
   opacity: 1;
-  transform: translateY(-48%) scale(1) translateZ(24px);
+  transform: translateY(-15%) scale(1) translateZ(24px);
   z-index: 9;
 }
 
@@ -992,7 +992,7 @@ body::before {
   }
 
   .letter-scene--open .letter-paper {
-    transform: translateY(-44%) scale(1);
+    transform: translateY(-14%) scale(1) translateZ(24px);
   }
 
   .birthday-actions {
