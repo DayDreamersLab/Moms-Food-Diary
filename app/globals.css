@@ -405,6 +405,10 @@ body::before {
   transform: scale(calc(var(--recipe-click-scale, 1) + 0.08));
 }
 
+.recipe-pot-button--puffing {
+  animation: recipePotConfettiShake 720ms ease both;
+}
+
 .recipe-pot-button:focus-visible,
 .recipe-cake-button:focus-visible {
   outline: 3px solid rgba(184, 92, 42, 0.4);
@@ -561,6 +565,15 @@ body::before {
   0% { opacity: 0; transform: translateY(8px) scale(0.55) rotate(-16deg); }
   40% { opacity: 1; transform: translateY(-4px) scale(1.1) rotate(8deg); }
   100% { opacity: 0; transform: translateY(-16px) scale(0.75) rotate(18deg); }
+}
+
+@keyframes recipePotConfettiShake {
+  0%, 100% { transform: scale(var(--recipe-click-scale, 1)) rotate(0deg); }
+  16% { transform: scale(var(--recipe-click-scale, 1)) translateX(-3px) rotate(-7deg); }
+  32% { transform: scale(var(--recipe-click-scale, 1)) translateX(4px) rotate(6deg); }
+  48% { transform: scale(var(--recipe-click-scale, 1)) translateX(-4px) rotate(-5deg); }
+  64% { transform: scale(var(--recipe-click-scale, 1)) translateX(3px) rotate(4deg); }
+  80% { transform: scale(var(--recipe-click-scale, 1)) translateX(-2px) rotate(-2deg); }
 }
 
 @keyframes recipeBurstRing {

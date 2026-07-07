@@ -463,8 +463,9 @@ export default function LandingPage() {
             </button>
           ) : (
             <button
+              key={recipeConfettiPuff}
               type="button"
-              className="recipe-pot-button"
+              className={`recipe-pot-button ${recipeConfettiPuff > 0 ? 'recipe-pot-button--puffing' : ''}`}
               onClick={handleRecipeIconClick}
               aria-label="Mom's recipes"
               style={{
