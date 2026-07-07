@@ -118,7 +118,7 @@ export default function BirthdayLetterPage() {
               <X size={22} aria-hidden="true" />
             </button>
             <span className="letter-date">2026년 7월 6일</span>
-            <span className="letter-title">생일 축하해요 엄마</span>
+            <span className="letter-title">생일 축하해요 엄마!</span>
             <span className="letter-body">
                   저번 생일도 그렇고 완성하는게 조금씩 늦어서 생일때 드리고 싶었는데 타이밍을 놓쳤어요. 미안해요. 
                   벌써 홍콩에 온지 거의 10년, 엄마랑 함께한지는 20년이 됬어요. 

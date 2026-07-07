@@ -821,7 +821,7 @@ body::before {
   padding-top: 20px;
   color: var(--deep-brown);
   font-family: 'Caveat', cursive;
-  font-size: clamp(1.22rem, 3.6vw, 1.71rem);
+  font-size: clamp(1.1rem, 3.24vw, 1.54rem);
 }
 
 .wax-seal {
@@ -967,7 +967,7 @@ body::before {
 }
 
 .letter-zoom-paper .letter-signature {
-  font-size: clamp(1.8rem, 5.4vw, 2.7rem);
+  font-size: clamp(1.62rem, 4.86vw, 2.43rem);
 }
 
 .letter-zoom-close {
