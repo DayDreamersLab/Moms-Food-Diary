@@ -817,8 +817,8 @@ body::before {
 }
 
 .letter-signature {
-  margin-top: auto;
-  padding-top: 20px;
+  margin-top: 16px;
+  padding-top: 0;
   color: var(--deep-brown);
   font-family: 'Caveat', cursive;
   font-size: clamp(1.1rem, 3.24vw, 1.54rem);
