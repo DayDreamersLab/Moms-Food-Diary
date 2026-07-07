@@ -776,18 +776,6 @@ body::before {
   cursor: zoom-in;
 }
 
-.letter-paper::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 45%;
-  background: linear-gradient(to bottom, rgba(255, 250, 244, 0), var(--warm-white) 72%);
-  backdrop-filter: blur(1.8px);
-  pointer-events: none;
-}
-
 .letter-date {
   color: var(--warm-gray);
   font-size: clamp(0.72rem, 1.8vw, 0.84rem);
@@ -802,6 +790,8 @@ body::before {
 }
 
 .letter-body {
+  position: relative;
+  display: block;
   margin-top: 18px;
   color: var(--light-ink);
   font-size: clamp(0.82rem, 2.2vw, 1rem);
@@ -810,12 +800,24 @@ body::before {
   overflow: hidden;
 }
 
+.letter-body::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 1.75em;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(255, 250, 244, 0.08), var(--warm-white) 78%);
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+}
+
 .letter-signature {
   margin-top: auto;
   padding-top: 20px;
   color: var(--deep-brown);
   font-family: 'Caveat', cursive;
-  font-size: clamp(1.35rem, 4vw, 1.9rem);
+  font-size: clamp(1.22rem, 3.6vw, 1.71rem);
 }
 
 .wax-seal {
@@ -956,8 +958,12 @@ body::before {
   font-size: clamp(1rem, 2.4vw, 1.26rem);
 }
 
+.letter-zoom-paper .letter-body::after {
+  display: none;
+}
+
 .letter-zoom-paper .letter-signature {
-  font-size: clamp(2rem, 6vw, 3rem);
+  font-size: clamp(1.8rem, 5.4vw, 2.7rem);
 }
 
 .letter-zoom-close {
