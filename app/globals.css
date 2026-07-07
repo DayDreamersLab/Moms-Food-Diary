@@ -729,9 +729,10 @@ body::before {
 }
 
 .letter-scene--open .envelope-flap {
-  opacity: 0.42;
+  opacity: 0;
   transform: rotateX(178deg);
   z-index: 1;
+  visibility: hidden;
 }
 
 .letter-scene--open .envelope-back,
@@ -756,13 +757,17 @@ body::before {
   border: 1px solid rgba(200, 149, 108, 0.35);
   background: var(--warm-white);
   box-shadow: 0 12px 36px rgba(122, 79, 46, 0.12);
-  transform: translateY(14%) scale(0.94);
-  transition: transform 850ms cubic-bezier(.2, .72, .18, 1) 130ms;
+  opacity: 0;
+  transform: translateY(72%) scale(0.9);
+  transition:
+    opacity 180ms ease 260ms,
+    transform 850ms cubic-bezier(.2, .72, .18, 1) 130ms;
   z-index: 2;
 }
 
 .letter-scene--open .letter-paper {
-  transform: translateY(-48%) scale(1);
+  opacity: 1;
+  transform: translateY(-48%) scale(1) translateZ(24px);
   z-index: 9;
 }
 
