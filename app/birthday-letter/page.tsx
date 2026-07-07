@@ -48,8 +48,7 @@ export default function BirthdayLetterPage() {
           <p className="birthday-kicker">Birthday surprise</p>
           <h1>엄마를 위한 자그마한 생일선물</h1>
           <p>
-            A tiny prototype for the reveal moment: she taps the envelope, the flap opens,
-            and the birthday message slides into view like a keepsake.
+            편지를 열어보세요!
           </p>
         </div>
 
