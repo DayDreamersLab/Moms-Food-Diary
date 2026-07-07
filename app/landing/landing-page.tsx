@@ -1,13 +1,15 @@
 'use client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function LandingPage() {
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [recipeIconClicks, setRecipeIconClicks] = useState(0);
-  const [recipeConfettiPuff, setRecipeConfettiPuff] = useState(0);
+  const [recipeConfettiPuffs, setRecipeConfettiPuffs] = useState<number[]>([]);
+  const recipeConfettiPuffId = useRef(0);
+  const recipeConfettiTimeouts = useRef<number[]>([]);
   const [birthdayTransitioning, setBirthdayTransitioning] = useState(false);
   const recipeIconReady = recipeIconClicks >= 10;
 
@@ -24,7 +26,7 @@ export default function LandingPage() {
     const schedulePuff = () => {
       const delay = 5000 + Math.random() * 15000;
       timeoutId = window.setTimeout(() => {
-        setRecipeConfettiPuff(puff => puff + 1);
+        releaseRecipeConfettiPuff();
         schedulePuff();
       }, delay);
     };
@@ -33,8 +35,27 @@ export default function LandingPage() {
     return () => window.clearTimeout(timeoutId);
   }, [recipeIconReady, birthdayTransitioning]);
 
+  useEffect(() => {
+    return () => {
+      recipeConfettiTimeouts.current.forEach(timeoutId => window.clearTimeout(timeoutId));
+    };
+  }, []);
+
+  function releaseRecipeConfettiPuff() {
+    const puffId = recipeConfettiPuffId.current + 1;
+    recipeConfettiPuffId.current = puffId;
+    setRecipeConfettiPuffs(puffs => [...puffs, puffId]);
+
+    const timeoutId = window.setTimeout(() => {
+      setRecipeConfettiPuffs(puffs => puffs.filter(id => id !== puffId));
+      recipeConfettiTimeouts.current = recipeConfettiTimeouts.current.filter(id => id !== timeoutId);
+    }, 2200);
+
+    recipeConfettiTimeouts.current.push(timeoutId);
+  }
+
   function handleRecipeIconClick() {
-    setRecipeConfettiPuff(puff => puff + 1);
+    releaseRecipeConfettiPuff();
     setRecipeIconClicks(clicks => Math.min(clicks + 1, 10));
   }
 
@@ -484,8 +505,8 @@ export default function LandingPage() {
               ✦
             </span>
           )}
-          {recipeConfettiPuff > 0 && !recipeIconReady && (
-            <span className="recipe-confetti-puff" key={recipeConfettiPuff} aria-hidden="true">
+          {recipeConfettiPuffs.map(puffId => (
+            <span className="recipe-confetti-puff" key={puffId} aria-hidden="true">
               {Array.from({ length: 12 }).map((_, index) => (
                 <span
                   key={index}
@@ -499,7 +520,7 @@ export default function LandingPage() {
                 />
               ))}
             </span>
-          )}
+          ))}
           {recipeIconReady && (
             <span className="recipe-burst" aria-hidden="true">
               <span>✦</span>
