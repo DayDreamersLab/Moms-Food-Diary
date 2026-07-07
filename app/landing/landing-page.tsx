@@ -7,6 +7,7 @@ export default function LandingPage() {
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [recipeIconClicks, setRecipeIconClicks] = useState(0);
+  const [recipeConfettiPuff, setRecipeConfettiPuff] = useState(0);
   const [birthdayTransitioning, setBirthdayTransitioning] = useState(false);
   const recipeIconReady = recipeIconClicks >= 10;
 
@@ -15,6 +16,22 @@ export default function LandingPage() {
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  useEffect(() => {
+    if (recipeIconReady || birthdayTransitioning) return;
+
+    let timeoutId: number;
+    const schedulePuff = () => {
+      const delay = 10000 + Math.random() * 10000;
+      timeoutId = window.setTimeout(() => {
+        setRecipeConfettiPuff(puff => puff + 1);
+        schedulePuff();
+      }, delay);
+    };
+
+    schedulePuff();
+    return () => window.clearTimeout(timeoutId);
+  }, [recipeIconReady, birthdayTransitioning]);
 
   function handleRecipeIconClick() {
     setRecipeIconClicks(clicks => Math.min(clicks + 1, 10));
@@ -464,6 +481,22 @@ export default function LandingPage() {
               aria-hidden="true"
             >
               ✦
+            </span>
+          )}
+          {recipeConfettiPuff > 0 && !recipeIconReady && (
+            <span className="recipe-confetti-puff" key={recipeConfettiPuff} aria-hidden="true">
+              {Array.from({ length: 7 }).map((_, index) => (
+                <span
+                  key={index}
+                  style={{
+                    ['--puff-x' as any]: `${[-28, -14, 2, 18, 32, -4, 24][index]}px`,
+                    ['--puff-y' as any]: `${[-42, -56, -48, -60, -38, -70, -52][index]}px`,
+                    ['--puff-rotate' as any]: `${[-34, 24, 58, -18, 42, 12, -56][index]}deg`,
+                    ['--puff-delay' as any]: `${index * 55}ms`,
+                    ['--puff-color' as any]: ['#d4a853', '#b85c2a', '#8a9e7a', '#c8956c', '#fffaf4', '#a7613a', '#f0d7a1'][index],
+                  }}
+                />
+              ))}
             </span>
           )}
           {recipeIconReady && (

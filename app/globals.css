@@ -422,6 +422,37 @@ body::before {
   animation: recipeSparkPop 420ms ease both;
 }
 
+.recipe-confetti-puff {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.recipe-confetti-puff span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 12px;
+  border-radius: 3px;
+  background: var(--puff-color);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.55) rotate(0deg);
+  animation: recipeConfettiEscape 1100ms ease-out var(--puff-delay) both;
+}
+
+.recipe-confetti-puff span:nth-child(2n) {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.recipe-confetti-puff span:nth-child(3n) {
+  width: 12px;
+  height: 6px;
+}
+
 .recipe-easter-egg--ready::before {
   content: '';
   position: absolute;
@@ -548,6 +579,23 @@ body::before {
   0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
   40% { opacity: 1; transform: translate(calc(-50% + var(--burst-x)), calc(-50% + var(--burst-y))) scale(1.1); }
   100% { opacity: 0; transform: translate(calc(-50% + var(--burst-x)), calc(-50% + var(--burst-y))) scale(0.7); }
+}
+
+@keyframes recipeConfettiEscape {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.45) rotate(0deg);
+  }
+  18% {
+    opacity: 1;
+  }
+  74% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--puff-x)), calc(-50% + var(--puff-y))) scale(0.9) rotate(var(--puff-rotate));
+  }
 }
 
 @keyframes birthdayConfettiFall {
