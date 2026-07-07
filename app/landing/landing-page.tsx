@@ -22,7 +22,7 @@ export default function LandingPage() {
 
     let timeoutId: number;
     const schedulePuff = () => {
-      const delay = 10000 + Math.random() * 10000;
+      const delay = 5000 + Math.random() * 15000;
       timeoutId = window.setTimeout(() => {
         setRecipeConfettiPuff(puff => puff + 1);
         schedulePuff();
@@ -463,9 +463,8 @@ export default function LandingPage() {
             </button>
           ) : (
             <button
-              key={recipeConfettiPuff}
               type="button"
-              className={`recipe-pot-button ${recipeConfettiPuff > 0 ? 'recipe-pot-button--puffing' : ''}`}
+              className="recipe-pot-button"
               onClick={handleRecipeIconClick}
               aria-label="Mom's recipes"
               style={{
@@ -486,15 +485,15 @@ export default function LandingPage() {
           )}
           {recipeConfettiPuff > 0 && !recipeIconReady && (
             <span className="recipe-confetti-puff" key={recipeConfettiPuff} aria-hidden="true">
-              {Array.from({ length: 7 }).map((_, index) => (
+              {Array.from({ length: 12 }).map((_, index) => (
                 <span
                   key={index}
                   style={{
-                    ['--puff-x' as any]: `${[-28, -14, 2, 18, 32, -4, 24][index]}px`,
-                    ['--puff-y' as any]: `${[-42, -56, -48, -60, -38, -70, -52][index]}px`,
-                    ['--puff-rotate' as any]: `${[-34, 24, 58, -18, 42, 12, -56][index]}deg`,
-                    ['--puff-delay' as any]: `${index * 55}ms`,
-                    ['--puff-color' as any]: ['#d4a853', '#b85c2a', '#8a9e7a', '#c8956c', '#fffaf4', '#a7613a', '#f0d7a1'][index],
+                    ['--puff-x' as any]: `${[-52, -34, -16, 4, 24, 44, 58, -6, 18, -46, 36, 0][index]}px`,
+                    ['--puff-y' as any]: `${[-64, -86, -74, -96, -78, -92, -58, -110, -112, -48, -118, -88][index]}px`,
+                    ['--puff-rotate' as any]: `${[-58, 32, 78, -24, 54, 16, -72, 94, -38, 68, -86, 22][index]}deg`,
+                    ['--puff-delay' as any]: `${index * 42}ms`,
+                    ['--puff-color' as any]: ['#d4a853', '#b85c2a', '#8a9e7a', '#c8956c', '#fffaf4', '#a7613a', '#f0d7a1', '#d97b5d', '#7f9c8d', '#e7b860', '#ba6f44', '#fff2d6'][index],
                   }}
                 />
               ))}
