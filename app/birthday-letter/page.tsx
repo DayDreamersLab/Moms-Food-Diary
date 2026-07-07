@@ -66,7 +66,7 @@ export default function BirthdayLetterPage() {
           <span className="envelope-shadow" />
           <span className="envelope">
             <span className="letter-paper" title={isOpen ? 'Click to zoom' : undefined}>
-              <span className="letter-date">July 4, 2026</span>
+              <span className="letter-date">July 7, 2026</span>
               <span className="letter-title">생일 축하해요 엄마!</span>
               <span className="letter-body">
                   저번 생일도 그렇고 완성하는게 조금씩 늦어서 생일때 드리고 싶었는데 타이밍을 놓쳤어요. 미안해요. 
