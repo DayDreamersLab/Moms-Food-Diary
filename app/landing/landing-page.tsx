@@ -34,6 +34,7 @@ export default function LandingPage() {
   }, [recipeIconReady, birthdayTransitioning]);
 
   function handleRecipeIconClick() {
+    setRecipeConfettiPuff(puff => puff + 1);
     setRecipeIconClicks(clicks => Math.min(clicks + 1, 10));
   }
 
