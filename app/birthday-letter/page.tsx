@@ -46,7 +46,7 @@ export default function BirthdayLetterPage() {
       <section className="birthday-stage" aria-label="Birthday surprise letter prototype">
         <div className="birthday-copy">
           <p className="birthday-kicker">Birthday surprise</p>
-          <h1>An openable letter for Mom</h1>
+          <h1>엄마를 위한 자그마한 생일선물</h1>
           <p>
             A tiny prototype for the reveal moment: she taps the envelope, the flap opens,
             and the birthday message slides into view like a keepsake.
@@ -68,12 +68,17 @@ export default function BirthdayLetterPage() {
           <span className="envelope">
             <span className="letter-paper" title={isOpen ? 'Click to zoom' : undefined}>
               <span className="letter-date">July 4, 2026</span>
-              <span className="letter-title">생일 축하해요, 엄마</span>
+              <span className="letter-title">생일 축하해요 엄마!</span>
               <span className="letter-body">
-                Thank you for every meal, every story, and every quiet way you made home
-                feel safe. Today is for celebrating you.
+                  저번 생일도 그렇고 완성하는게 조금씩 늦어서 생일때 드리고 싶었는데 타이밍을 놓쳤어요. 미안해요. 
+                  벌써 홍콩에 온지 거의 10년, 엄마랑 함께한지는 20년이 됬어요. 
+                  엄마에겐 여기에서의 10년이 어떤 의미였을지 모르지만, 
+                  제가보낸 여기서의 10년은 엄마와 함께지 않았더라면 버티기 힘든 10년이 되지 않았을까 생각해요. 
+                  잠시나마 였지만 엄마가 한국으로 가고 저랑 아빠만 둘이서 있을때 집밥의 힘, 그리고 엄마라는 존재 자체가 주는 힘을 뼈저리게 느꼈고,
+                  엄마가 얼마나 홍콩에서의 삶을 편안하게 해줬고 얼마나 버팀목이 되었는지를 새삼 되돌아 보게 되었어요. 
+                  지금까지 그리고 계속 저를 지탱해 주는 가장 큰 힘이 되줘서 너무 고맙고, 늦었지만 그만큼 생일 축하해요!
               </span>
-              <span className="letter-signature">Love, always</span>
+              <span className="letter-signature">엄마의 힘이 되고 싶은 대희가</span>
             </span>
             <span className="envelope-back" />
             <span className="envelope-left" />
@@ -85,13 +90,13 @@ export default function BirthdayLetterPage() {
             </span>
           </span>
 
-          {!isOpen && <span className="letter-hint">Tap to open</span>}
+          {!isOpen && <span className="letter-hint">탭하여 열기</span>}
         </button>
 
         <div className="birthday-actions">
           <button type="button" onClick={replayLetter} disabled={!isOpen}>
             <RotateCcw size={18} aria-hidden="true" />
-            Replay
+            재생
           </button>
         </div>
       </section>
