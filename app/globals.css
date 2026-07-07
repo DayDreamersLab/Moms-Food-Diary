@@ -748,7 +748,7 @@ body::before {
   left: 10%;
   right: 10%;
   bottom: 18%;
-  min-height: 78%;
+  height: 78%;
   padding: clamp(18px, 4vw, 30px);
   display: flex;
   flex-direction: column;
@@ -763,6 +763,7 @@ body::before {
     opacity 180ms ease 260ms,
     transform 850ms cubic-bezier(.2, .72, .18, 1) 130ms;
   z-index: 2;
+  overflow: hidden;
 }
 
 .letter-scene--open .letter-paper {
@@ -773,6 +774,18 @@ body::before {
 
 .letter-scene--open .letter-paper {
   cursor: zoom-in;
+}
+
+.letter-paper::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 45%;
+  background: linear-gradient(to bottom, rgba(255, 250, 244, 0), var(--warm-white) 72%);
+  backdrop-filter: blur(1.8px);
+  pointer-events: none;
 }
 
 .letter-date {
@@ -793,6 +806,8 @@ body::before {
   color: var(--light-ink);
   font-size: clamp(0.82rem, 2.2vw, 1rem);
   line-height: 1.75;
+  max-height: 4.9em;
+  overflow: hidden;
 }
 
 .letter-signature {
@@ -936,6 +951,8 @@ body::before {
 
 .letter-zoom-paper .letter-body {
   max-width: 560px;
+  max-height: none;
+  overflow: visible;
   font-size: clamp(1rem, 2.4vw, 1.26rem);
 }
 
