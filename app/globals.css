@@ -729,10 +729,9 @@ body::before {
 }
 
 .letter-scene--open .envelope-flap {
-  opacity: 0;
+  opacity: 0.42;
   transform: rotateX(178deg);
   z-index: 1;
-  visibility: hidden;
 }
 
 .letter-scene--open .envelope-back,
@@ -763,7 +762,7 @@ body::before {
 }
 
 .letter-scene--open .letter-paper {
-  transform: translateY(-48%) scale(1) translateZ(24px);
+  transform: translateY(-48%) scale(1);
   z-index: 9;
 }
 
