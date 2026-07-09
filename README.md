@@ -404,3 +404,10 @@ semanticallyRejected
 totalOutputExamples
 
 So: no manual merge needed unless you intentionally generated into a separate file. For normal use, same output file + higher target count + different seed is the clean workflow.
+
+npm run scrape:flight-dropdown --
+  --url "https://internal.page/flight-dropdown-page.phtml"
+  --selector 'select[name="flight"]'
+  --out data/runtime/flight-options.json
+  --watch
+  --interval-minutes 5
