@@ -411,3 +411,18 @@ npm run scrape:flight-dropdown --
   --out data/runtime/flight-options.json
   --watch
   --interval-minutes 5
+
+npm run ranker:generate-failure-candidates -- \
+  --model command-r:35b \
+  --validator-model qwen3:30b \
+  --target-count 500 \
+  --tasks-per-call 2 \
+  --task-order shuffled-balanced \
+  --include-descriptions \
+  --minimum-num-predict 700 \
+  --num-predict-per-example 45 \
+  --num-ctx 4096 \
+  --timeout-seconds 300 \
+  --ranker-timeout-seconds 15 \
+  --retries 5 \
+  --seed 84
