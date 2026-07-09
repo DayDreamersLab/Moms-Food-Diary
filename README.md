@@ -349,126 +349,58 @@ npm run ranker:generate-hard-examples -- \
   --retries 5 \
   --seed 442
 
-   npm run ranker:generate-heldout-candidates -- \
-  --model command-r:35b \
-  --validator-model qwen3:30b \
-  --target-count 1500 \
-  --tasks-per-call 2 \
-  --task-order shuffled-balanced \
-  --single-examples-per-route 10 \
-  --hard-examples-per-route 8 \
-  --topic-examples-per-group 12 \
-  --purpose-examples-per-group 8 \
-  --candidate-variants-per-combination 14 \
-  --contrast-route-limit 4 \
-  --group-route-context-limit 10 \
-  --route-topic-limit 8 \
-  --route-purpose-limit 3 \
-  --route-phrase-limit 5 \
-  --plain-keyword-limit 12 \
-  --include-descriptions \
-  --minimum-num-predict 900 \
-  --num-predict-per-example 60 \
-  --num-ctx 4096 \
-  --near-duplicate-threshold 0.92 \
-  --timeout-seconds 360 \
-  --retries 5 \
-  --seed 84
-
-   npm run ranker:generate-heldout-candidates -- \
-  --model command-r:35b \
-  --validator-model qwen3:30b \
-  --target-count 1500 \
-  --tasks-per-call 2 \
-  --task-order shuffled-balanced \
-  --single-examples-per-route 10 \
-  --hard-examples-per-route 8 \
-  --topic-examples-per-group 12 \
-  --purpose-examples-per-group 8 \
-  --bundle-examples-per-pair 8 \
-  --bundle-task-limit 450 \
-  --bundle-candidates-per-route 6 \
-  --candidate-variants-per-combination 18 \
-  --accepted-per-combination 8 \
-  --contrast-route-limit 4 \
-  --group-route-context-limit 10 \
-  --route-topic-limit 8 \
-  --route-purpose-limit 3 \
-  --route-phrase-limit 5 \
-  --plain-keyword-limit 12 \
-  --include-descriptions \
-  --minimum-num-predict 1100 \
-  --num-predict-per-example 70 \
-  --num-ctx 4096 \
-  --near-duplicate-threshold 0.90 \
-  --coverage-near-duplicate-threshold 0.97 \
-  --timeout-seconds 420 \
-  --retries 5 \
-  --seed 84
-
-Run 1: Moderate anti-overfit
-npm run ranker:train -- \
-  --epochs 20 \
-  --batch-size 32 \
-  --learning-rate 0.0003 \
-  --weight-decay 0.002 \
-  --dropout 0.35 \
-  --relevance-label-smoothing 0.08 \
-  --relevance-positive-weight 3 \
-  --scope-loss-weight 0.25 \
-  --validation-fraction 0.20 \
-  --seed 42 \
-  --device cuda
-Run 2: Stronger regularization
-npm run ranker:train -- \
-  --epochs 18 \
-  --batch-size 32 \
-  --learning-rate 0.00025 \
-  --weight-decay 0.004 \
-  --dropout 0.45 \
-  --relevance-label-smoothing 0.10 \
-  --relevance-positive-weight 2.5 \
-  --scope-loss-weight 0.2 \
-  --validation-fraction 0.20 \
-  --seed 42 \
-  --device cuda
-Run 3: If it underfits
-npm run ranker:train -- \
-  --epochs 25 \
-  --batch-size 32 \
-  --learning-rate 0.0005 \
-  --weight-decay 0.001 \
-  --dropout 0.30 \
-  --relevance-label-smoothing 0.05 \
-  --relevance-positive-weight 4 \
-  --scope-loss-weight 0.3 \
-  --validation-fraction 0.20 \
-  --seed 42 \
-  --device cuda
-
-  npm run ranker:generate-synthetic-expert -- \
+Merge batch:
+npm run ranker:generate-synthetic-expert -- \
   --model qwen3:30b \
   --validator-model command-r:35b \
-  --target-count 3000 \
+  --target-count 9000 \
   --tasks-per-call 2 \
   --task-order shuffled-balanced \
-  --single-examples-per-route 18 \
-  --hard-examples-per-route 8 \
-  --topic-examples-per-group 16 \
-  --purpose-examples-per-group 10 \
-  --bundle-examples-per-pair 6 \
-  --bundle-task-limit 180 \
-  --bundle-candidates-per-route 4 \
-  --contrast-route-limit 3 \
-  --group-route-context-limit 8 \
-  --route-topic-limit 5 \
-  --route-purpose-limit 2 \
-  --route-phrase-limit 4 \
-  --plain-keyword-limit 10 \
+  --single-examples-per-route 24 \
+  --hard-examples-per-route 16 \
+  --topic-examples-per-group 28 \
+  --purpose-examples-per-group 20 \
+  --bundle-examples-per-pair 10 \
+  --bundle-task-limit 500 \
+  --bundle-candidates-per-route 5 \
+  --contrast-route-limit 5 \
+  --group-route-context-limit 12 \
+  --route-topic-limit 8 \
+  --route-purpose-limit 4 \
+  --route-phrase-limit 6 \
+  --plain-keyword-limit 14 \
   --include-descriptions \
-  --minimum-num-predict 1000 \
-  --num-predict-per-example 55 \
+  --minimum-num-predict 1100 \
+  --num-predict-per-example 60 \
   --num-ctx 4096 \
   --timeout-seconds 420 \
   --retries 5 \
-  --seed 42
+  --seed 243
+
+Merge method:
+You achieve it mostly by running the next generation into the same output file, not by manually merging.
+Your generator already does this:
+Reads existing synthetic_expert_seed_examples.jsonl
+Keeps existing records with the current route-registry fingerprint
+Generates new candidates
+Rejects exact duplicates
+Rejects near-duplicates
+Rejects conflicting labels
+Runs validator model
+Writes only accepted records back into the same file
+
+Before running, I’d make a backup:
+cp pytorch_route_ranker/data/synthetic_expert_seed_examples.jsonl pytorch_route_ranker/data/synthetic_expert_seed_examples_backup.jsonl
+After running, check:
+wc -l pytorch_route_ranker/data/synthetic_expert_seed_examples.jsonl
+And inspect:
+cat pytorch_route_ranker/data/synthetic_expert_seed_manifest.json
+The key fields are:
+existingExamplesRetained
+acceptedExamples
+duplicateTrainingQueriesRejected
+nearDuplicatesRejected
+semanticallyRejected
+totalOutputExamples
+
+So: no manual merge needed unless you intentionally generated into a separate file. For normal use, same output file + higher target count + different seed is the clean workflow.
