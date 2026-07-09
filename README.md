@@ -426,3 +426,14 @@ npm run ranker:generate-failure-candidates -- \
   --ranker-timeout-seconds 15 \
   --retries 5 \
   --seed 84
+
+export AMIDS_CLIENT_CERT_PASSPHRASE="your-certificate-passphrase"
+
+npm run scrape:flight-dropdown -- \
+  --url "https://your-amids-origin/path/to/page.phtml" \
+  --selector 'select[name="flight"]' \
+  --out data/runtime/cert-test-flight-options.json \
+  --client-cert-origin "https://your-amids-origin" \
+  --client-cert-pfx "/absolute/path/to/your-certificate.p12" \
+  --client-cert-passphrase-env AMIDS_CLIENT_CERT_PASSPHRASE \
+  --timeout-ms 60000
